@@ -37,7 +37,7 @@
         <div class="layadmin-user-login-main">
           <div class="layadmin-user-login-box layadmin-user-login-header">
             <h2>
-              <strong>Jeesite快速开发平台</strong>
+              <strong>测试系统</strong>
             </h2>
           </div>
           <div class="layadmin-user-login-box layadmin-user-login-body layui-form">

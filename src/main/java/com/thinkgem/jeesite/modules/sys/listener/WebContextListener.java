@@ -22,7 +22,7 @@ public class WebContextListener extends org.springframework.web.context.ContextL
 	private boolean printKeyLoadMessage(){
 		StringBuilder sb = new StringBuilder();
 		sb.append("\r\n======================================================================\r\n");
-		sb.append("\r\n    欢迎使用 "+Global.getConfig("productName")+"  - Powered By http://jeesite.com\r\n");
+		sb.append("\r\n    欢迎使用 "+Global.getConfig("productName")+"  - Powered By 柯康水\r\n");
 		sb.append("\r\n======================================================================\r\n");
 		System.out.println(sb.toString());
 		return true;
