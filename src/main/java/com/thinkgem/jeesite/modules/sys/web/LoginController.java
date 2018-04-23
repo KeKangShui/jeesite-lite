@@ -64,7 +64,6 @@ public class LoginController extends BaseController {
 		}
 		return "modules/sys/sysLogin";
 	}
-
 	/**
 	 * 登录失败，真正登录的POST请求由Filter完成
 	 */

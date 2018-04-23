@@ -1,13 +1,10 @@
 package com.thinkgem.jeesite.modules.sys.web;
 
-import com.excel.common.ExcelUtils;
-import com.excel.core.bean.Excel;
-import com.excel.core.bean.Json;
-import com.excel.core.bean.User;
-import com.excel.core.service.ExcelService;
-import com.excel.core.service.UserService;
+import com.thinkgem.jeesite.common.excel.ExcelUtils;
+import com.thinkgem.jeesite.common.service.ExcelService;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.sys.entity.Excel;
+import com.thinkgem.jeesite.modules.sys.entity.Json;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +30,7 @@ import java.util.Map;
  */
 @Controller("index")
 public class ExcelController extends BaseController {
-    @Autowired
-    private UserService service;
+
     @Autowired
     private ExcelService jsonService;
 
