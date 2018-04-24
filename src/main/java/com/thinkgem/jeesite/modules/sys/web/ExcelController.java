@@ -1,12 +1,13 @@
 package com.thinkgem.jeesite.modules.sys.web;
 
 import com.thinkgem.jeesite.common.excel.ExcelUtils;
-import com.thinkgem.jeesite.common.service.ExcelService;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.sys.entity.Excel;
 import com.thinkgem.jeesite.modules.sys.entity.Json;
+import com.thinkgem.jeesite.modules.sys.service.ExcelService;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -28,11 +29,12 @@ import java.util.Map;
 /**
  * Created by ASUS on 2018/4/15.
  */
-@Controller("index")
+@Controller
+@RequestMapping(value = "${adminPath}/sys/excel")
 public class ExcelController extends BaseController {
 
     @Autowired
-    private ExcelService jsonService;
+    private ExcelService excelService ;
 
 
     @RequestMapping(value = "/upload.do", method = RequestMethod.POST)
@@ -86,20 +88,14 @@ public class ExcelController extends BaseController {
 
     }
 
+//    @RequiresPermissions("sys:excel:view")
     @RequestMapping(value = "/mytest.do",method = RequestMethod.POST)
     public String test(HttpServletRequest request, HttpServletResponse response, @RequestParam MultipartFile file, ModelMap modelMap) throws ServletException, IOException {
 
         System.out.println("您已进入该方法！！！");
         String filename = file.getOriginalFilename().toString();
         System.out.println(filename);
-  /*      Map<String,String> map = new HashMap<String, String>();
-        map.put("A","what");
-        map.put("B","the");
-        map.put("C","fuck");
-        modelMap.addAttribute("filename",filename);
-        modelMap.addAttribute("map",map);
-        request.getRequestDispatcher("WEB-INF/page/pic.jsp").forward(request,response);
-  */
+
         String stest = ExcelUtils.responseExcel(file);
 //        System.out.println(stest);
 //        modelMap.addAttribute("test",stest); //这个与下面的作用是一样的
@@ -117,11 +113,16 @@ public class ExcelController extends BaseController {
 
         for (int i = 0; i < list.size(); i++) {
             JSONObject object = JSONObject.fromObject(list.get(i));
-            jsonService.addJson(object.toString());
+            excelService.addJson(object.toString());
         }
 
 //        request.getRequestDispatcher("WEB-INF/page/show.jsp").forward(request,response);
-        return "show";
+        return "modules/sys/show";
+    }
+
+    @RequestMapping(value = "/up")
+    public String up(){
+        return "modules/sys/upload";
     }
 
 }

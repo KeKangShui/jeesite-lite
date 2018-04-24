@@ -1,14 +1,16 @@
 package com.thinkgem.jeesite.modules.sys.service;
 
-import com.thinkgem.jeesite.common.service.ExcelService;
+import com.thinkgem.jeesite.common.service.BaseService;
 import com.thinkgem.jeesite.modules.sys.dao.ExcelDao;
+import com.thinkgem.jeesite.modules.sys.entity.Excel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class ExcelServiceImpl implements ExcelService {
-    @Resource
+@Transactional(readOnly = false)
+public class ExcelService extends BaseService<ExcelDao,Excel> {
+    @Autowired
     private ExcelDao excelDao;
 
     public void addJson(String json) {
