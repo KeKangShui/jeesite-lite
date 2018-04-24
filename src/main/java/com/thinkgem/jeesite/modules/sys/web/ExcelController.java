@@ -1,6 +1,9 @@
 package com.thinkgem.jeesite.modules.sys.web;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.thinkgem.jeesite.common.excel.ExcelUtils;
+import com.thinkgem.jeesite.common.persistence.PageFactory;
+import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.sys.entity.Excel;
 import com.thinkgem.jeesite.modules.sys.entity.Json;
@@ -10,13 +13,10 @@ import net.sf.json.JSONObject;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -88,7 +88,54 @@ public class ExcelController extends BaseController {
 
     }
 
+
+    @ModelAttribute
+    public Excel get(@RequestParam(required = false) String id) {
+        if (StringUtils.isNotBlank(id)) {
+            return excelService.selectById(id);
+        } else {
+            return new Excel();
+        }
+    }
+
 //    @RequiresPermissions("sys:excel:view")
+    @RequestMapping(value = { "/list", "" })
+    public String list(Model model) {
+        List<String> typeList = excelService.findTypeList();
+        model.addAttribute("typeList", typeList);
+        return "modules/sys/excelList";
+    }
+
+    @ResponseBody
+//    @RequiresPermissions("sys:dict:view")
+    @RequestMapping(value = "data")
+    public Map listData(Excel excel) {
+        Page<Excel> page = excelService.findPage(new PageFactory<Excel>().defaultPage(), excel);
+        return jsonPage(page);
+    }
+
+    @ResponseBody
+//    @RequiresPermissions("sys:dict:view")
+    @RequestMapping(value = "query")
+    public List<Excel> query(@RequestParam(required=false) String type) {
+        Excel excel = new Excel();
+//        excel.setType(type);
+        return excelService.findList(excel);
+    }
+
+    @RequestMapping(value = "/up")
+    public String up(){
+        return "modules/sys/upload";
+    }
+
+//    @RequiresPermissions("sys:excel:view")
+    @RequestMapping(value = "/form")
+    public String form(Excel excel, Model model) {
+        model.addAttribute("excel", excel);
+        return "modules/sys/excelForm";
+    }
+
+
     @RequestMapping(value = "/mytest.do",method = RequestMethod.POST)
     public String test(HttpServletRequest request, HttpServletResponse response, @RequestParam MultipartFile file, ModelMap modelMap) throws ServletException, IOException {
 
@@ -97,8 +144,6 @@ public class ExcelController extends BaseController {
         System.out.println(filename);
 
         String stest = ExcelUtils.responseExcel(file);
-//        System.out.println(stest);
-//        modelMap.addAttribute("test",stest); //这个与下面的作用是一样的
         request.setAttribute("test",stest);
 
         //在这里转换为json格式存到数据库,而这个仅仅是存储一条数据
@@ -107,22 +152,16 @@ public class ExcelController extends BaseController {
         String[] split = stest.split("<tr>|</tr>");
         for (int i = 0; i < split.length; i++) {
             System.out.println(split[i]);
-            list.add(new Json(i,split[i]));
-
+            list.add(new Json(split[i]));
         }
-
         for (int i = 0; i < list.size(); i++) {
             JSONObject object = JSONObject.fromObject(list.get(i));
             excelService.addJson(object.toString());
         }
-
-//        request.getRequestDispatcher("WEB-INF/page/show.jsp").forward(request,response);
-        return "modules/sys/show";
+//        return "modules/sys/show";
+        return "modules/sys/excelList";
     }
 
-    @RequestMapping(value = "/up")
-    public String up(){
-        return "modules/sys/upload";
-    }
+
 
 }

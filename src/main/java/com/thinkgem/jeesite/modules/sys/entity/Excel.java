@@ -5,6 +5,15 @@ import com.thinkgem.jeesite.common.persistence.BaseEntity;
 public class Excel extends BaseEntity<Excel> {
     private String id;
     private String json;
+    private String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public String getId() {
         return id;

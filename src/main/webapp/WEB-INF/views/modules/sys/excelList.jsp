@@ -2,45 +2,37 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>字典---管理</title>
+	<title>Excel---管理</title>
 	<meta name="decorator" content="default"/>
+	<style>
+		table{
+			width: 55%;
+			margin: 0px auto;
+			margin-top: 40px;
+		}
+		td{
+			width: 60px;
+			height: 40px;
+			text-align: center;
+		}
+	</style>
 </head>
 <body>
 	<div class="layui-tab">
 		<ul class="layui-tab-title">
-			<li class="layui-this"><a href="${ctx}/sys/excel/">字典列表</a></li>
-			<shiro:hasPermission name="sys:dict:edit"><li><a href="${ctx}/sys/excel/form?sort=10">字典添加</a></li></shiro:hasPermission>
+			<li class="layui-this"><a href="${ctx}/sys/excel/list">Excel列表</a></li>
+			<li><a href="${ctx}/sys/excel/form">Excel添加</a></li>
 		</ul>
 	</div><br/>
-	<form:form id="searchForm" modelAttribute="dict" class="layui-form">
-	<div class="layui-form-item">
-		<label class="layui-form-label">类型：</label>
-		<div class="layui-input-inline" style="width:160px">
-			<form:select id="type" path="type">
-				<form:option value="" label=""/>
-				<form:options items="${typeList}" htmlEscape="false"/>
-			</form:select>
-		</div>
-		<label class="layui-form-label">描述 ：</label>
-		<div class="layui-input-inline">
-			<form:input path="description" htmlEscape="false" maxlength="50" class="layui-input input-medium"/>
-		</div>
-		<input id="btnSearch" class="layui-btn layui-btn-normal" style="margin-left:50px" type="button" value="查询"/>
-	</div>
-	</form:form>
+	${requestScope.test}
+
 	<sys:message content="${message}"/>
-	<div style="margin:15px">
-		<div class="layui-btn-group">
-			<button class="layui-btn layui-btn-danger layui-btn-disabled" id="btnDelete" disabled><i class="layui-icon">&#xe640;</i>批量删除</button>
-		</div>
-		<table class="layui-table"></table>
-	</div>
 	<script type="text/html" id="bar">
 		<a href="javascript:void(0)" class="layui-btn layui-btn-sm" lay-event="edit"><i class="layui-icon">&#xe642;</i>修改</a>
 		<a href="javascript:void(0)" class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del"><i class="layui-icon">&#xe640;</i>删除</a>
 		<a href="javascript:void(0)" class="layui-btn layui-btn-normal layui-btn-sm" lay-event="add"><i class="layui-icon">&#xe608;</i>添加键值</a>
 	</script>
-	<script type="text/javascript">
+	<%--<script type="text/javascript">
 	function typeFilter(type) {
 		$('#type').val(type);
 		layui.form.render();
@@ -62,7 +54,7 @@
 		       }} 
 		      ,{field: 'description', title: '描述'}
 		      ,{field: 'sort', title: '排序'}
-		      <shiro:hasPermission name="sys:dict:edit">
+		      <shiro:hasPermission name="sys:excel:excel">
 		      ,{fixed:'right', align:'center', width:300, title: '操作', toolbar:'#bar'}
 		      </shiro:hasPermission>
 		    ]]
@@ -84,6 +76,6 @@
 			batchDelete('${ctx}/sys/excel/batchDelete');
 		});
 	});
-	</script>
+	</script--%>>
 </body>
 </html>

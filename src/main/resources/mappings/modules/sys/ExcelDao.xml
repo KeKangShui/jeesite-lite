@@ -12,4 +12,13 @@
     <!--<select id="selectJsonById" parameterType="Excel" resultMap="excel">-->
         <!--SELECT * FROM excel-->
     <!--</select>-->
+
+    <select id="findTypeList" resultType="string">
+        SELECT
+        type
+        FROM sys_excel
+        WHERE json = #{json}
+        GROUP BY type
+        ORDER BY type
+    </select>
 </mapper>

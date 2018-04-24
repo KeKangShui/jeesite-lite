@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>字典管理</title>
+	<title>字典++管理</title>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -19,11 +19,11 @@
 <body>
 	<div class="layui-tab">
 		<ul class="layui-tab-title">
-			<li><a href="${ctx}/sys/dict/">字典列表</a></li>
-			<li class="layui-this"><a href="${ctx}/sys/dict/form?id=${dict.id}">字典<shiro:hasPermission name="sys:dict:edit">${not empty dict.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="sys:dict:edit">查看</shiro:lacksPermission></a></li>
+			<li><a href="${ctx}/sys/excel/">字典列表</a></li>
+			<li class="layui-this"><a href="${ctx}/sys/excel/form?id=${dict.id}">字典<shiro:hasPermission name="sys:dict:edit">${not empty dict.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="sys:dict:edit">查看</shiro:lacksPermission></a></li>
 		</ul>
 	</div><br/>
-	<form:form id="inputForm" modelAttribute="dict" action="${ctx}/sys/dict/save" method="post" class="layui-form">
+	<form:form id="inputForm" modelAttribute="dict" action="${ctx}/sys/excel/save" method="post" class="layui-form">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>
 		<div class="layui-form-item">
