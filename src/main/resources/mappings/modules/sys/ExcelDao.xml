@@ -3,22 +3,40 @@
 <mapper namespace="com.thinkgem.jeesite.modules.sys.dao.ExcelDao">
     <resultMap id="excel" type="com.thinkgem.jeesite.modules.sys.entity.Excel">
         <result property="id" column="id" javaType="int" jdbcType="INTEGER"/>
+        <result property="excel_id" column="excel_id" javaType="int" jdbcType="INTEGER"/>
         <result property="json" column="json" javaType="string" jdbcType="VARCHAR"/>
     </resultMap>
     <insert id="addJson" parameterType="com.thinkgem.jeesite.modules.sys.entity.Excel" useGeneratedKeys="true">
-        INSERT INTO sys_excel(json)VALUES (#{json})
+        INSERT INTO sys_excel(excel_id,json)VALUES (#{excel_id},#{json})
     </insert>
 
+    <select id="selectJson" parameterType="com.thinkgem.jeesite.modules.sys.entity.Excel" resultMap="excel">
+        SELECT * FROM excel
+    </select>
+
+    <select id="selectJsonById" parameterType="com.thinkgem.jeesite.modules.sys.entity.Excel" resultMap="excel">
+        SELECT * FROM excel
+    </select>
     <!--<select id="selectJsonById" parameterType="Excel" resultMap="excel">-->
         <!--SELECT * FROM excel-->
     <!--</select>-->
-
-    <select id="findTypeList" resultType="string">
+    <select id="findIdList" resultType="string">
         SELECT
-        type
+        id
         FROM sys_excel
-        WHERE json = #{json}
-        GROUP BY type
-        ORDER BY type
+        WHERE id = #{id}
+        GROUP BY id
+        ORDER BY id
+    </select>
+
+    <select id="findList" resultType="Excel">
+        SELECT
+        *
+        FROM sys_excel
+        WHERE 1=1
+        <if test="type != null and type != ''">
+            AND id = #{id}
+        </if>
+        ORDER BY id ASC
     </select>
 </mapper>

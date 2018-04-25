@@ -6,6 +6,7 @@ import com.thinkgem.jeesite.modules.sys.dao.ExcelDao;
 import com.thinkgem.jeesite.modules.sys.entity.Dict;
 import com.thinkgem.jeesite.modules.sys.entity.Excel;
 import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,24 +17,27 @@ import java.util.List;
 @Service
 @Transactional(readOnly = false)
 public class ExcelService extends BaseService<ExcelDao,Excel> {
-    @Autowired
-    private ExcelDao excelDao;
 
-    public void addJson(String json) {
-         excelDao.addJson(json);
+
+    public void addJson(@Param("excel_id") int excel_id, @Param("json") String json){
+        dao.addJson(excel_id,json);
     }
 
-  /*  public String selectJsonById() {
-        return excelDao.selectJsonById();
-    }*/
+    /**
+     * 根据主键选择
+     * @return
+     */
+    public List<Excel> selectJsonById(){
+        return dao.selectJsonById();
+    }
 
     /**
      * 查询字段类型列表
      *
      * @return
      */
-    public List<String> findTypeList() {
-        return excelDao.findTypeList(new Excel());
+    public List<String> findIdList() {
+        return dao.findIdList(new Excel());
     }
 
     @Transactional(readOnly = false)
