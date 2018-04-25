@@ -1,10 +1,11 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-    <title>Title</title>
-
-    <style>
+    <title>显示</title>
+    <meta name="decorator" content="default"/>
+   <style>
         table{
             width: 55%;
             margin: 0px auto;
@@ -18,32 +19,17 @@
     </style>
 </head>
 <body>
-<%--<%=request.getAttribute("test")%>  这个也是可以使用  --%>
-<%--<%!StringBuffer buffer = new StringBuffer(); %>
-<%
-    List<String[]> str = (List<String[]>)request.getAttribute("res");
-        buffer.delete(0,buffer.length());
-for (int i = 0; i < str.size(); i++) {
-        String[] strings =str.get(i);
-        for (int j = 0; j < strings.length; j++) {
-            String s =strings[j];
-            System.out.println(strings[j]);
-            buffer.append("<table><th>");
-            if (null != s){
-                buffer.append("<tr><td >"+s+"</td></tr>");
-            }
-            buffer.append("</th></table>");
-        }
-    }
-%>--%>
-<%--<%=request.getAttribute("test")%>--%>
 
-<%--${pageContext.request.contextPath}
-<%--
-<c:forEach var="tx" items="${test}">
-    ${tx}
-</c:forEach>--%>
+<div class="layui-tab">
+    <ul class="layui-tab-title">
+        <li><a href="${ctx}/sys/excel">Excel列表</a></li>
+        <li class="layui-this"><a href="${ctx}/sys/excel/form">Excel添加<shiro:hasPermission name="sys:excel:edit">${not empty excel.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="sys:excel:edit">查看</shiro:lacksPermission></a></li>
+    </ul>
+</div><br/>
+<div class="layui-form-item">
+    <div class="layui-input-block">
 ${requestScope.test}
-<%--${test}  这个也是可以使用--%>
+    </div>
+</div>
 </body>
 </html>
