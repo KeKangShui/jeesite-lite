@@ -31,7 +31,7 @@ import java.util.Map;
  * Created by ASUS on 2018/4/15.
  */
 @Controller
-@RequestMapping(value = "${adminPath}/sys/excel")
+@RequestMapping(value = "${adminPath}/sys/excel/")
 public class ExcelController extends BaseController {
 
     @Autowired
@@ -51,7 +51,7 @@ public class ExcelController extends BaseController {
     public String list(Model model) {
         List<String> typeList = excelService.findIdList();
         model.addAttribute("typeList", typeList);
-        return "modules/sys/excel_List";
+        return "modules/sys/excel/excel_List";
     }
 
     @ResponseBody
@@ -77,13 +77,20 @@ public class ExcelController extends BaseController {
     @RequestMapping(value = "form")
     public String form(Excel excel, Model model) {
         model.addAttribute("excel", excel);
-        return "modules/sys/excel_Form";
+        return "modules/sys/excel/excel_Form";
+    }
+
+    @RequiresPermissions("sys:excel:view")
+    @RequestMapping(value = "show")
+    public String show(Excel excel, Model model) {
+        model.addAttribute("excel", excel);
+        return "modules/sys/excel/show";
     }
 
     @RequiresPermissions("sys:excel:view")
     @RequestMapping(value = "/up")
     public String up(){
-        return "modules/sys/upload";
+        return "modules/sys/excel/upload";
     }
 
     @RequiresPermissions("sys:excel:edit")
@@ -91,14 +98,14 @@ public class ExcelController extends BaseController {
     public String save(Excel excel, Model model, RedirectAttributes redirectAttributes) {
         if (Global.isDemoMode()) {
             addMessage(redirectAttributes, "演示模式，不允许操作！");
-            return "redirect:" + adminPath + "/sys/excel?type=" + excel.getType();
+            return "redirect:" + adminPath + "/sys/excel/?type=" + excel.getType();
         }
         if (!beanValidator(model, excel)) {
             return form(excel, model);
         }
         excelService.save(excel);
-        addMessage(redirectAttributes, "保存字典'"  + "'成功");
-        return "redirect:" + adminPath + "/sys/excel?type=" + excel.getType();
+        addMessage(redirectAttributes, "保存Excel'"  + "'成功");
+        return "redirect:" + adminPath + "/sys/excel/?type=" + excel.getType();
     }
 
     @RequiresPermissions("sys:excel:edit")
@@ -106,11 +113,11 @@ public class ExcelController extends BaseController {
     public String delete(Excel excel, RedirectAttributes redirectAttributes) {
         if (Global.isDemoMode()) {
             addMessage(redirectAttributes, "演示模式，不允许操作！");
-            return "redirect:" + adminPath + "/sys/excel";
+            return "redirect:" + adminPath + "/sys/excel/";
         }
         excelService.delete(excel);
-        addMessage(redirectAttributes, "删除字典成功");
-        return "redirect:" + adminPath + "/sys/excel?type=" + excel.getType();
+        addMessage(redirectAttributes, "删除Excel成功");
+        return "redirect:" + adminPath + "/sys/excel/?type=" + excel.getType();
     }
 
     @RequiresPermissions("sys:excel:edit")
@@ -118,33 +125,31 @@ public class ExcelController extends BaseController {
     public String batchDelete(String ids, RedirectAttributes redirectAttributes) {
         if (Global.isDemoMode()) {
             addMessage(redirectAttributes, "演示模式，不允许操作！");
-            return "redirect:" + adminPath + "/sys/excel";
+            return "redirect:" + adminPath + "/sys/excel/";
         }
         excelService.batchDelete(ids);
-        addMessage(redirectAttributes, "批量删除字典成功");
-        return "redirect:" + adminPath + "/sys/excel";
+        addMessage(redirectAttributes, "批量删除Excel成功");
+        return "redirect:" + adminPath + "/sys/excel/";
     }
+
+
 
     @RequiresPermissions("sys:excel:view")
     @RequestMapping(value = "/mytest.do",method = RequestMethod.POST)
     public String test(HttpServletRequest request, HttpServletResponse response, @RequestParam MultipartFile file, ModelMap modelMap) throws ServletException, IOException {
-
-        System.out.println("您已进入该方法！！！");
-        String filename = file.getOriginalFilename().toString();
-        System.out.println(filename);
+        List<Json> list = new ArrayList<Json>();
 
         String stest = ExcelUtils.responseExcel(file);
         request.setAttribute("test",stest);
 
         //在这里转换为json格式存到数据库,而这个仅仅是存储一条数据
 //        excelService.addJson(stest);
-        List<Json> list = new ArrayList<Json>();
         list.add(new Json(stest));
         for (int i = 0; i < list.size(); i++) {
             JSONObject object = JSONObject.fromObject(list.get(i));
             excelService.addJson(i,object.toString());
         }
-        return "modules/sys/show";
+        return "modules/sys/excel/upload";
 //        return "modules/sys/excel_List";
     }
 
@@ -168,7 +173,7 @@ public class ExcelController extends BaseController {
             System.out.println(strings.get(i));
         }
         request.setAttribute("table",strings);
-        return "/modules/sys/show";
+        return "modules/sys/excel/show";
     }
     public static String jsonToText(JSONObject s){
         String text=s.get("json").toString();

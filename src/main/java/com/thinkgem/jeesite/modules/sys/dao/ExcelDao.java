@@ -34,6 +34,7 @@ public interface ExcelDao extends CrudDao<Excel> {
 //    @Select("select json from excel")
 //    String selectJsonById();
     public List<String> findIdList(Excel excel);
+
     public List<Excel> findAllList(Excel excel);
 
 }

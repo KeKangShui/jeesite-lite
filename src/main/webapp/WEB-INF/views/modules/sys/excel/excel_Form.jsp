@@ -8,12 +8,12 @@
 <body>
 <div class="layui-tab">
     <ul class="layui-tab-title">
-        <li><a href="${ctx}/sys/excel">Excel列表</a></li>
-        <li class="layui-this"><a href="${ctx}/sys/excel/form">Excel添加<shiro:hasPermission name="sys:excel:edit">${not empty excel.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="sys:excel:edit">查看</shiro:lacksPermission></a></li>
+        <li><a href="${ctx}/sys/excel/">Excel列表</a></li>
+        <li class="layui-this"><a href="${ctx}/sys/excel/form?id=${excel.id}">Excel<shiro:hasPermission name="sys:excel:edit">${not empty excel.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="sys:excel:edit">查看</shiro:lacksPermission></a></li>
     </ul>
 </div><br/>
 <form:form id="inputForm" modelAttribute="excel" action="${ctx}/sys/excel/mytest.do" method="post" enctype="multipart/form-data" class="layui-form">
-    <form:hidden path="id"/>
+    <%--<form:hidden path="id"/>--%>
     <sys:message content="${message}"/>
 
         <h1>请上传文件</h1>

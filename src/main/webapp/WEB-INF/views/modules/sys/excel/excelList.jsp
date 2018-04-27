@@ -21,11 +21,10 @@
 	<div class="layui-tab">
 		<ul class="layui-tab-title">
 			<li class="layui-this"><a href="${ctx}/sys/excel/list">Excel列表</a></li>
-			<li><a href="${ctx}/sys/excel/form">Excel添加</a></li>
+			<li><a href="${ctx}/sys/excel/form?id=${excel.id}">Excel添加</a></li>
 		</ul>
 	</div><br/>
 	${requestScope.test}
-
 	<sys:message content="${message}"/>
 	<script type="text/html" id="bar">
 		<a href="javascript:void(0)" class="layui-btn layui-btn-sm" lay-event="edit"><i class="layui-icon">&#xe642;</i>修改</a>

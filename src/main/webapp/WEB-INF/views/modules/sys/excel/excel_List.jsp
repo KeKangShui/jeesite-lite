@@ -8,8 +8,8 @@
 <body>
 <div class="layui-tab">
     <ul class="layui-tab-title">
-        <li class="layui-this"><a href="${ctx}/sys/excel">Excel列表</a></li>
-        <shiro:hasPermission name="sys:excel:edit"><li><a href="${ctx}/sys/excel/form">字典添加</a></li></shiro:hasPermission>
+        <li class="layui-this"><a href="${ctx}/sys/excel/">Excel列表</a></li>
+        <shiro:hasPermission name="sys:excel:edit"><li><a href="${ctx}/sys/excel/form?id=${excel.id}">Excel添加</a></li></shiro:hasPermission>
     </ul>
 </div><br/>
 <form:form id="searchForm" modelAttribute="excel" class="layui-form">
@@ -46,8 +46,8 @@
             ,cols: [[ //表头
                 {type: 'checkbox', fixed:'left'}
                 ,{field: 'value',title: '键值'}
-                ,{title: '标签', templet: function(d) {
-                        return '<a href="${ctx}/sys/excel/form?id='+d.id+'" class="layui-table-link">'+d.label+'</a>'
+                ,{title: 'id', templet: function(d) {
+                        return '<a href="${ctx}/sys/excel/show?id='+d.id+'" class="layui-table-link">'+d.id+'</a>'
                     }}
                 ,{title: '类型', templet: function(d) {
                         return '<a href="javascript:void(0)" class="layui-table-link" onclick="typeFilter(\''+d.type+'\')">'+d.type+'</a>'
