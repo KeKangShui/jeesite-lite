@@ -17,7 +17,8 @@ import java.util.List;
 @Service
 @Transactional(readOnly = false)
 public class ExcelService extends BaseService<ExcelDao,Excel> {
-
+    @Autowired
+    private ExcelDao excelDao;
 
     public void addJson(@Param("excel_id") int excel_id, @Param("json") String json){
         dao.addJson(excel_id,json);
@@ -55,8 +56,13 @@ public class ExcelService extends BaseService<ExcelDao,Excel> {
     @Transactional(readOnly = false)
     public void batchDelete(String ids) {
         List<String> idList = Arrays.asList(ids.split(","));
-        super.deleteBatchIds(idList);
+//       dao.deleteBatchIds(idList);
+        excelDao.deleteBatchExcelIds(idList);
         CacheUtils.remove(DictUtils.CACHE_DICT_MAP);
+    }
+
+    public void deleteBatchIds(List<Integer> ints){
+        dao.deleteBatchIds(ints);
     }
 
 }

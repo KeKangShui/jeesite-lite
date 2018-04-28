@@ -37,4 +37,5 @@ public interface ExcelDao extends CrudDao<Excel> {
 
     public List<Excel> findAllList(Excel excel);
 
+    void deleteBatchExcelIds(List list);
 }
